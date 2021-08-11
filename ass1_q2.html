@@ -1,0 +1,38 @@
+<html>
+    <body>
+        <script>
+
+const get_api = async (url) => {
+    const res = await fetch(url)
+    return res.json()
+}
+
+const ans = async (query) => {
+    const data = await get_api(`https://api.github.com/search/repositories?q=${query}`)
+    let results = []
+    for(let item of data.items){
+        const result = {
+            'name':item['name'],
+            'full_name':item.full_name,
+            'private':item.private,
+            'owner':{
+                 'login':item.owner.login,
+                 'name':get_api(item.owner.url)['name'],
+                 'followersCount':get_api(item.owner.followers_url).length,      
+                 'followingCount':get_api(item.owner.following_url).length,
+                     },
+            
+            'licenseName':item.license,        
+            'score':item.score,
+            //'numberOfBranches':get_api(item.branches_url).length
+            }
+        results.push(result)
+    }
+    console.log(results)
+}
+let query = prompt("Search for")
+ans(query)
+alert("Open Console")
+        </script>
+    </body>
+</html>
