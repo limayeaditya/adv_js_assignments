@@ -1,0 +1,62 @@
+<html>
+<body>
+<script>
+const url = 'https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies.json'
+async function getMovies(){
+    const response = await fetch(url)
+    const data = await response.json()
+    
+    let result = {
+        actors :[
+                {
+                    Name : "",
+                    Movies : []
+                }
+            ],
+        Genres : [
+                {
+                    Type : "",
+                    Movies : []
+                }
+            ]
+    }
+    
+    const actors_movies = {}
+    const genre_movies = {}
+    for(let i=0;i<data.length;i++){
+        for(let j=0;j<data[i].cast.length;j++){
+            if(!actors_movies[data[i].cast[j]]){
+                actors_movies[data[i].cast[j]] = []
+            }
+            actors_movies[data[i].cast[j]].push(data[i].title)
+        }
+        for(let k=0;k<data[i].genres.length;k++){
+            if(!genre_movies[data[i].genres[k]]){
+                genre_movies[data[i].genres[k]] = []
+            }
+            genre_movies[data[i].genres[k]].push(data[i].title)
+        }
+        
+    }
+
+    for([key,val] of Object.entries(actors_movies)){
+        let res1 = {
+            Name: key,
+            Movies: val
+        }
+        result.actors.push(res1)
+    }
+    for([key,val] of Object.entries(genre_movies)){
+        let res1 = {
+            Type: key,
+            Movies: val
+        }
+        result.Genres.push(res1)
+    }
+    console.log(result);
+   
+}
+getMovies()
+</script>
+</body>
+</html>

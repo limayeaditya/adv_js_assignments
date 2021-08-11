@@ -1033,11 +1033,7 @@ const battles = [
    const name = battles.map(item => item.name);
    
    const maxValue = (givenArray) => givenArray.reduce((previous, current, i, arr) =>
-       arr.filter(item => item === previous).length >
-       arr.filter(item => item === current).length
-       ? previous
-       : current
-       );
+       arr.filter(item => item === previous).length > arr.filter(item => item === current).length ? previous : current);
    
    const win = battles.filter(item => item.attacker_outcome == "win").length;
    const loss = battles.filter(item => item.attacker_outcome == "loss").length;
